@@ -5,11 +5,13 @@ defmodule MeckWeirdnessTest do
     on_exit fn -> :meck.unload end
   end
 
+  # passes
   test "With no mocked functions" do
     :meck.new MeckWeirdness, [:passthrough]
     assert MeckWeirdness.do_it == :not_mocked
   end
 
+  # fails, mocked version of `some_function` isn't called.
   test "With a mocked function" do
     :meck.new MeckWeirdness, [:passthrough]
     :meck.expect MeckWeirdness, :some_function, 2, :mocked
@@ -17,6 +19,7 @@ defmodule MeckWeirdnessTest do
     assert MeckWeirdness.do_it == :mocked
   end
 
+  # fails, mocked version of `some_function` isn't called.
   test "With a mocked function, no passthrough" do
     :meck.new MeckWeirdness
 
@@ -29,6 +32,7 @@ defmodule MeckWeirdnessTest do
     assert MeckWeirdness.do_it == :mocked
   end
 
+  # passes
   test "With both functions mocked, no passthrough" do
     :meck.new MeckWeirdness
 
